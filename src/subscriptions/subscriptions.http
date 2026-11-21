@@ -1,0 +1,19 @@
+@baseUrl = http://localhost:3000
+@customerId = 00000000-0000-4000-8000-000000000000
+@planId = 00000000-0000-4000-8000-000000000000
+@subscriptionId = 00000000-0000-4000-8000-000000000000
+
+### Criar assinatura
+POST {{baseUrl}}/subscriptions
+Content-Type: application/json
+
+{
+  "customerId": "{{customerId}}",
+  "planId": "{{planId}}"
+}
+
+### Listar assinaturas
+GET {{baseUrl}}/subscriptions
+
+### Cancelar assinatura
+PATCH {{baseUrl}}/subscriptions/{{subscriptionId}}/cancel

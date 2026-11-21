@@ -1,0 +1,20 @@
+@baseUrl = http://localhost:3000
+@webhookSecret = whsec_local_dev_secret
+@invoiceId = 00000000-0000-4000-8000-000000000000
+
+### Listar faturas
+GET {{baseUrl}}/webhooks/invoices
+
+### Processar webhook de pagamento
+POST {{baseUrl}}/webhooks/payment
+Content-Type: application/json
+x-webhook-secret: {{webhookSecret}}
+
+{
+  "externalId": "evt_pay_0001",
+  "type": "invoice.paid",
+  "invoiceId": "{{invoiceId}}"
+}
+
+### Executar rotina de cobrança recorrente
+POST {{baseUrl}}/webhooks/run-billing-job

@@ -1,0 +1,26 @@
+@baseUrl = http://localhost:3000
+
+### Criar Plano Mensal
+POST {{baseUrl}}/plans
+Content-Type: application/json
+
+{
+  "name": "Plano Pro Mensal",
+  "code": "PRO_MONTHLY",
+  "priceCents": 9990,
+  "interval": "MONTHLY"
+}
+
+### Criar Plano Anual
+POST {{baseUrl}}/plans
+Content-Type: application/json
+
+{
+  "name": "Plano Enterprise Anual",
+  "code": "ENTERPRISE_YEARLY",
+  "priceCents": 99900,
+  "interval": "YEARLY"
+}
+
+### Listar planos ativos
+GET {{baseUrl}}/plans

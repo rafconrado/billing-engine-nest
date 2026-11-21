@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  document      String         @unique
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  subscriptions Subscription[]
+  invoices      Invoice[]
+}
+
+model Plan {
+  id            String         @id @default(uuid())
+  name          String
+  code          String         @unique
+  priceCents    Int
+  interval      String
+  active        Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id              String    @id @default(uuid())
+  customerId      String
+  planId          String
+  status          String    @default("ACTIVE")
+  nextBillingDate DateTime
+  canceledAt      DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  customer Customer  @relation(fields: [customerId], references: [id])
+  plan     Plan      @relation(fields: [planId], references: [id])
+  invoices Invoice[]
+}
+
+model Invoice {
+  id             String    @id @default(uuid())
+  subscriptionId String
+  customerId     String
+  amountCents    Int
+  status         String    @default("PENDING")
+  dueDate        DateTime
+  paidAt         DateTime?
+  idempotencyKey String    @unique
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+  customer     Customer     @relation(fields: [customerId], references: [id])
+}
+
+model WebhookEvent {
+  id          String    @id @default(uuid())
+  externalId  String    @unique
+  type        String
+  payload     String
+  status      String    @default("PENDING")
+  attempts    Int       @default(0)
+  lastError   String?
+  processedAt DateTime?
+  createdAt   DateTime  @default(now())
+}

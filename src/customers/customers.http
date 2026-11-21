@@ -1,0 +1,24 @@
+@baseUrl = http://localhost:3000
+
+### Criar cliente PF
+POST {{baseUrl}}/customers
+Content-Type: application/json
+
+{
+  "name": "Rafael Conrado",
+  "email": "rafael@conrado.dev",
+  "document": "12345678901"
+}
+
+### Criar cliente PJ
+POST {{baseUrl}}/customers
+Content-Type: application/json
+
+{
+  "name": "Cliente teste",
+  "email": "clienteteste@teste.com.br",
+  "document": "00974158000162"
+}
+
+### Listar clientes
+GET {{baseUrl}}/customers
