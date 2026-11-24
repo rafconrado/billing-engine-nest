@@ -11,6 +11,28 @@ services:
       POSTGRES_DB: billing_engine
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U billing_user -d billing_engine']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: billing_engine_api
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: 'file:./dev.db'
+      WEBHOOK_SECRET: 'whsec_local_dev_secret'
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 volumes:
   postgres_data:

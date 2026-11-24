@@ -12,13 +12,21 @@ API REST desenvolvida com **NestJS** e **Prisma ORM** para gerenciamento de plan
   - Garantia de idempotência por `externalId` para evitar baixa duplicada de faturas.
   - Rotina agendada (`@Cron`) para geração de faturas recorrentes a cada ciclo vencido.
 
-## Requisitos e Execução
+## Execução Local
 
 ```bash
 npm install
 cp .env.example .env
 npx prisma db push
 npm run start:dev
+```
+
+## Execução com Docker
+
+O projeto conta com `Dockerfile` multi-stage (`builder` e `runner` em `node:22-alpine`) e orquestração via Docker Compose com `healthcheck`:
+
+```bash
+docker compose up -d --build
 ```
 
 - **Servidor:** `http://localhost:3000`

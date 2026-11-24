@@ -1,0 +1,9 @@
+node_modules
+dist
+.git
+.gitignore
+.env
+*.db
+*.db-journal
+README.md
+src/**/*.http
